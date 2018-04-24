@@ -23,23 +23,13 @@ def _login_redirect_url(request):
 class SignupController(object):
 
     def __init__(self, request):
-        tos_link = ('<a class="link" href="/terms-of-service">' +
-                    _('Terms of Service') +
-                    '</a>')
-        cg_link = ('<a class="link" href="/community-guidelines">' +
-                   _('Community Guidelines') +
-                   '</a>')
-        form_footer = _(
-            'You are agreeing to our {tos_link} and '
-            '{cg_link}.').format(tos_link=tos_link, cg_link=cg_link)
 
         self.request = request
         self.schema = schemas.RegisterSchema().bind(request=self.request)
         self.form = request.create_form(self.schema,
                                         buttons=(deform.Button(title=_('Sign up'),
                                                                css_class='js-signup-btn'),),
-                                        css_class='js-signup-form',
-                                        footer=form_footer)
+                                        css_class='js-signup-form')
 
     @view_config(request_method='GET')
     def get(self):
