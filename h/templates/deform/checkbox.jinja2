@@ -5,5 +5,17 @@
          value="{{ field.widget.true_val }}"
          {%- if cstruct == field.widget.true_val %}
          checked=""
-         {% endif -%}>
+         {% endif -%}
+         {% if field.widget.css_class %}
+         class="{{ field.widget.css_class }}"
+         {% endif %}
+         {% if field.required %}
+         required
+         {% endif %}
+  >
+  {% if field.description %}
+    <label for="{{ field.oid }}">
+      {{ field.description }}
+    </label>
+  {% endif %}
 </div>
