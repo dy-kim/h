@@ -113,15 +113,15 @@ def new_password_node(**kwargs):
 
 def _privacy_accepted_message():
     terms_links = {
-        'privacy_policy': '<a href="{href}">{text}</a>'.format(
+        'privacy_policy': '<a class="link" href="{href}">{text}</a>'.format(
             href='https://web.hypothes.is/privacy/',
             text=_('privacy policy'),
         ),
-        'terms_of_service': '<a href="{href}">{text}</a>'.format(
+        'terms_of_service': '<a class="link" href="{href}">{text}</a>'.format(
             href='https://web.hypothes.is/terms-of-service/',
             text=_('terms of service'),
         ),
-        'community_guidelines': '<a href="{href}">{text}</a>'.format(
+        'community_guidelines': '<a class="link" href="{href}">{text}</a>'.format(
             href='https://web.hypothes.is/community-guidelines/',
             text=_('community guidelines'),
         ),
@@ -233,6 +233,7 @@ class RegisterSchema(CSRFSchema):
         validator=required_acceptance,
         widget=deform.widget.CheckboxWidget(
             omit_label=True,
+            css_class='form-checkbox--inline'
         ),
     )
 
