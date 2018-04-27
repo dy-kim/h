@@ -24,6 +24,9 @@ from h import db
 from h import models
 from h.settings import database_url
 from h._compat import text_type
+from tests.common.fixtures import search_client
+from tests.common.fixtures import init_elasticsearch
+from tests.common.fixtures import delete_all_elasticsearch_documents
 
 TEST_AUTHORITY = 'example.com'
 TEST_DATABASE_URL = database_url(os.environ.get('TEST_DATABASE_URL',
