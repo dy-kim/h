@@ -8,12 +8,16 @@ import pytest
 from webtest import TestApp
 
 from h._compat import text_type
+from tests.common.fixtures import ELASTICSEARCH_HOST
+from tests.common.fixtures import ELASTICSEARCH_INDEX
+from tests.common.fixtures import search_client
 from tests.common.fixtures import init_elasticsearch
+from tests.common.fixtures import delete_all_elasticsearch_documents
 
 
 TEST_SETTINGS = {
-    'es.host': os.environ.get('ELASTICSEARCH_HOST', 'http://localhost:9200'),
-    'es.index': 'hypothesis-test',
+    'es.host': ELASTICSEARCH_HOST,
+    'es.index': ELASTICSEARCH_INDEX,
     'h.app_url': 'http://example.com',
     'h.authority': 'example.com',
     'pyramid.debug_all': True,
@@ -27,7 +31,6 @@ def app(pyramid_app, db_engine):
     from h import db
 
     _clean_database(db_engine)
-    _clean_elasticsearch(TEST_SETTINGS)
     db.init(db_engine, authority=text_type(TEST_SETTINGS['h.authority']))
 
     return TestApp(pyramid_app)
@@ -79,11 +82,3 @@ def _clean_database(engine):
         tnames = ', '.join('"' + t.name + '"' for t in tables)
         conn.execute('TRUNCATE {};'.format(tnames))
         tx.commit()
-
-
-def _clean_elasticsearch(settings):
-    import elasticsearch
-
-    conn = elasticsearch.Elasticsearch([settings['es.host']])
-    conn.delete_by_query(index=settings['es.index'],
-                         body={"query": {"match_all": {}}})
