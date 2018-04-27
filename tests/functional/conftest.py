@@ -8,6 +8,7 @@ import pytest
 from webtest import TestApp
 
 from h._compat import text_type
+from tests.common.fixtures import init_elasticsearch
 
 
 TEST_SETTINGS = {
@@ -64,14 +65,6 @@ def init_db(db_engine):
     db.init(db_engine, should_drop=True, should_create=True, authority=authority)
 
 
-@pytest.fixture(scope='session', autouse=True)
-def init_elasticsearch():
-    from h.search import init, get_client
-    client = get_client(TEST_SETTINGS)
-    _drop_indices(TEST_SETTINGS)
-    init(client)
-
-
 @pytest.fixture(scope='session')
 def pyramid_app():
     from h.app import create_app
@@ -94,13 +87,3 @@ def _clean_elasticsearch(settings):
     conn = elasticsearch.Elasticsearch([settings['es.host']])
     conn.delete_by_query(index=settings['es.index'],
                          body={"query": {"match_all": {}}})
-
-
-def _drop_indices(settings):
-    import elasticsearch
-
-    conn = elasticsearch.Elasticsearch([settings['es.host']])
-
-    name = settings['es.index']
-    if conn.indices.exists(index=name):
-        conn.indices.delete(index=name)
