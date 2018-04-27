@@ -10,9 +10,9 @@ from webtest import TestApp
 from h._compat import text_type
 from tests.common.fixtures import ELASTICSEARCH_HOST
 from tests.common.fixtures import ELASTICSEARCH_INDEX
-from tests.common.fixtures import search_client
-from tests.common.fixtures import init_elasticsearch
-from tests.common.fixtures import delete_all_elasticsearch_documents
+from tests.common.fixtures import search_client  # noqa: F401
+from tests.common.fixtures import init_elasticsearch  # noqa: F401
+from tests.common.fixtures import delete_all_elasticsearch_documents  # noqa: F401
 
 
 TEST_SETTINGS = {
