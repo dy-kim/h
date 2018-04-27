@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+import datetime
 
 import deform
 import jinja2
@@ -56,7 +57,8 @@ class SignupController(object):
         signup_service = self.request.find_service(name='user_signup')
         signup_service.signup(username=appstruct['username'],
                               email=appstruct['email'],
-                              password=appstruct['password'])
+                              password=appstruct['password'],
+                              privacy_accepted=datetime.datetime.utcnow())
 
         self.request.session.flash(jinja2.Markup(_(
             "Please check your email and open the link to activate your "
