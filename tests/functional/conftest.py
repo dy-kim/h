@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals
+
 import contextlib
 import os
-
 
 import pytest
 from webtest import TestApp
