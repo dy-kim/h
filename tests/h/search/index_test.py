@@ -9,6 +9,21 @@ from h.search import client
 from h.search import index
 
 
+class TestIndex(object):
+    def test_index(self, factories, pyramid_request, search_client):
+        annotation = factories.Annotation.build(id="test_annotation_id")
+
+        index.index(search_client, annotation, pyramid_request)
+
+        search_client.conn.indices.refresh(index=search_client.index)
+        search_results = search_client.conn.search(
+            index=search_client.index,
+            body={"query": {"match_all": {}}},
+            _source=False,
+        )
+        assert [hit["_id"] for hit in search_results["hits"]["hits"]] == [annotation.id]
+
+
 @pytest.mark.usefixtures('presenters')
 class TestIndexAnnotation:
 
