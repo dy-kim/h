@@ -88,7 +88,6 @@ def unblacklisted_username(node, value, blacklist=None):
 
 def required_acceptance(node, value):
     '''Colander validator that ensures privacy acceptance checkbox checked'''
-    print value
     if value != 'true':
         msg = _("Acceptance of the privacy policy is required")
         raise colander.Invalid(node, msg)
